@@ -15,7 +15,7 @@ if len(files) == 0:
 print('Resume(s) found...')
 
 for index, pdf in enumerate(files):
-    print(str(index + 1) + " - " + pdf)
+    print(f'{str(index + 1)} - {pdf}')
 
 if len(files) > 1:
     while True:
@@ -26,9 +26,9 @@ if len(files) > 1:
                 resume_file = files[option]
                 break
             else:
-                print('Please enter a valid number between 1 and ' + str(len(files)))
+                print(f'Please enter a valid number between 1 and {str(len(files))}')
         except ValueError:
-            print("Please enter a valid number between 1 and " + str(len(files)))    
+            print(f'Please enter a valid number between 1 and {str(len(files))}')
 else:
     resume_file = files[0]
 
@@ -42,4 +42,4 @@ parsed_resume = json.dumps(response.json(), indent=4)
 save_response = open(resume_file_path, 'w')
 save_response.write(parsed_resume)
 
-print('Output saved as:', resume_file_path)
+print(f'Output saved as: {resume_file_path}')
