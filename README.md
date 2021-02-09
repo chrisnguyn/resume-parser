@@ -1,3 +1,5 @@
+**UPDATE: NO LONGER WORKING DUE TO CHANGES IN THE LEVER API.**
+
 # resume-parser
 Simple Python script made with the Lever API to parse resumes.
 
