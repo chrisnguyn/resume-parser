@@ -4,37 +4,30 @@ import os
 import requests
 
 
-print('Scanning for resume(s)...')
+files = [file for file in glob.glob('*.pdf')] + [file for file in glob.glob('*.doc')] + [file for file in glob.glob('*.docx')]
 
-files = [file for file in glob.glob('*.pdf')]
-
-if len(files) == 0:
-    print('No files found - please move files inside the src/ directory.')
-    exit()
-
-print('Resume(s) found...')
+if not files:
+    exit('No files found - make sure your files are in the \'src\' directory.')
 
 for index, pdf in enumerate(files):
     print(f'{str(index + 1)} - {pdf}')
 
-if len(files) > 1:
-    while True:
-        try:
-            option = int(input('Select file number: ')) - 1
+while True:
+    try:
+        option = int(input('Select file number or 0 to exit: ')) - 1
 
-            if option in range(0, len(files)):
-                resume_file = files[option]
-                break
-            else:
-                print(f'Please enter a valid number between 1 and {str(len(files))}')
-        except ValueError:
-            print(f'Please enter a valid number between 1 and {str(len(files))}')
-else:
-    resume_file = files[0]
+        if option == -1:
+            exit()
+        elif option in range(0, len(files)):
+            resume_file = files[option]
+            break
+        else:
+            print(f'Enter a valid number between 1 and {len(files)}')
+    except ValueError:
+        print(f'Enter a valid number between 1 and {len(files)}')
 
 url = 'https://jobs.lever.co/parseResume'
-resume = open(resume_file, 'rb')
-resume_file_path = os.path.splitext(resume_file)[0] + '.txt'
+resume, resume_file_path = open(resume_file, 'rb'), os.path.splitext(resume_file)[0] + '.txt'
 
 response = requests.post(url, files={'resume': resume}, headers={'referer': 'https://jobs.lever.co/', 'origin': 'https://jobs.lever.co/'}, cookies={'lever-referer': 'https://jobs.lever.co/'})
 parsed_resume = json.dumps(response.json(), indent=4)
