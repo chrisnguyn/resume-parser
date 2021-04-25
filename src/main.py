@@ -36,7 +36,7 @@ url = 'https://jobs.lever.co/parseResume'
 resume = open(resume_file, 'rb')
 resume_file_path = os.path.splitext(resume_file)[0] + '.txt'
 
-response = requests.post(url, files={'resume': resume})
+response = requests.post(url, files={'resume': resume}, headers={'referer': 'https://jobs.lever.co/', 'origin': 'https://jobs.lever.co/'}, cookies={'lever-referer': 'https://jobs.lever.co/'})
 parsed_resume = json.dumps(response.json(), indent=4)
 
 save_response = open(resume_file_path, 'w')
